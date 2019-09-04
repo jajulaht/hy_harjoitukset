@@ -1,0 +1,16 @@
+note over selain:
+käyttäjä syöttää tiedon input-kenttään
+ja painaa submit
+end note
+
+note over selain:
+Muistiinpanolista päivitetään ruudulle
+end note
+
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/new_note_spa
+
+note over palvelin:
+Muistiinpano lisätään listaan
+end note
+
+palvelin-->selain: HTTP-statuskoodi 201
