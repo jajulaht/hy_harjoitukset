@@ -11,9 +11,10 @@ const Button = (props) => {
 
 const Statistic = ({ text, value }) => {
   return (
-    <>
-    {text} {value}<br />
-    </>
+    <tr>
+    <td>{text}</td> 
+    <td>{value}</td>
+    </tr>
   )
 }
 
@@ -27,14 +28,16 @@ const Statistics = ({ good, neutral, bad }) => {
     return (
       <>
       <h2>Statistics</h2>
-      <p>
-      <Statistic text="Good" value={good} />
-      <Statistic text="Neutral" value={neutral} />
-      <Statistic text="Bad" value={bad} />
-      <Statistic text="All" value={all} />
-      <Statistic text="Average" value={avg} />
-      <Statistic text="Positive" value={pos} />
-      </p>
+      <table>
+        <tbody>
+          <Statistic text="Good" value={good} />
+          <Statistic text="Neutral" value={neutral} />
+          <Statistic text="Bad" value={bad} />
+          <Statistic text="All" value={all} />
+          <Statistic text="Average" value={avg} />
+          <Statistic text="Positive" value={pos} />
+        </tbody>
+      </table>
       </>
     )
   }
