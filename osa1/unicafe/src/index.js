@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 const Button = (props) => {
   return (
-    <button onClick={props.handleClick}>
+    <button onClick={props.onClick}>
       {props.text}
     </button>
   )
@@ -57,24 +57,24 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
-  const setNewGood = (newValue) => {
-    setGood(newValue)
+  const setNewGood = () => {
+    setGood(good + 1)
   }
 
-  const setNewNeutral = (newValue) => {
-    setNeutral(newValue)
+  const setNewNeutral = () => {
+    setNeutral(neutral + 1)
   }
 
-  const setNewBad = (newValue) => {
-    setBad(newValue)
+  const setNewBad = () => {
+    setBad(bad + 1)
   }
 
   return (
     <div>
       <h1>Give feedback</h1>
-      <Button handleClick={ () => setNewGood(good + 1) } text="good" />
-      <Button handleClick={ () => setNewNeutral(neutral + 1) } text="neutral" />
-      <Button handleClick={ () => setNewBad(bad + 1) } text="bad" />
+      <Button onClick={setNewGood} text="good" />
+      <Button onClick={setNewNeutral} text="neutral" />
+      <Button onClick={setNewBad} text="bad" />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
