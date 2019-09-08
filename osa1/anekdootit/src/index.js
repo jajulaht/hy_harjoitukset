@@ -10,7 +10,7 @@ const App = (props) => {
   let min = 0
 
   // Initialize votes array
-  const votesIni = new Uint8Array(max + 1)
+  const votesIni = new Uint8Array(anecdotes.length)
   if (votes.length === 0) {
     setVotes(votesIni)
   }
@@ -30,20 +30,41 @@ const App = (props) => {
   const addVote = (selected) => {
     const copy = [...votes]
     copy[selected] += 1
-    // JavaScript function that return function
+    // JavaScript function that return function, otherwise must change onClick
     return () => {
       setVotes(copy)
     }
   }
 
+  // Get _one_ anecdote with most votes, returns index
+  // If more than one most voted, returns first
+  // If no votes, returns first index
+  const mostVotes = () => {
+    let high = 0
+    let ind = 0
+    for (let i = 0; i < anecdotes.length; i++) {
+      if (votes[i] > high) {
+        high = votes[i]
+        ind = i
+      }
+    }
+    return (
+      ind
+    )
+  }
+
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>
         {props.anecdotes[selected]}
       </p>
       <p>has {votes[selected]} votes</p>
       <button onClick={nextLiner}>Next anecdote</button>
-      <button onClick={addVote(selected)}>Vote</button>      
+      <button onClick={addVote(selected)}>Vote</button>
+      <h2>Anecdote with most votes</h2>
+      <p>{props.anecdotes[mostVotes()]}</p>
+      <p>has {votes[mostVotes()]} votes</p>
     </div>
   )
 }
