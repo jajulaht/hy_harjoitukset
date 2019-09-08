@@ -3,18 +3,37 @@ import ReactDOM from 'react-dom'
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState([])
 
+  // Min and max for random integer
   let max = anecdotes.length - 1
   let min = 0
 
+  // Initialize votes array
+  const votesIni = new Uint8Array(max + 1)
+  if (votes.length === 0) {
+    setVotes(votesIni)
+  }
+
+  // Random integer for choosing anecdotes, handling clicks
   const nextLiner = () => {
-      min = Math.ceil(min);
-      max = Math.floor(max);
+      min = Math.ceil(min)
+      max = Math.floor(max)
       //The maximum is inclusive and the minimum is inclusive
-      let sel = Math.floor(Math.random() * (max - min + 1)) + min;  
+      let sel = Math.floor(Math.random() * (max - min + 1)) + min 
     return (
       setSelected(sel)
     )
+  }
+
+  // Adding a vote to selected anecdote, handling clicks
+  const addVote = (selected) => {
+    const copy = [...votes]
+    copy[selected] += 1
+    // JavaScript function that return function
+    return () => {
+      setVotes(copy)
+    }
   }
 
   return (
@@ -22,7 +41,9 @@ const App = (props) => {
       <p>
         {props.anecdotes[selected]}
       </p>
+      <p>has {votes[selected]} votes</p>
       <button onClick={nextLiner}>Next anecdote</button>
+      <button onClick={addVote(selected)}>Vote</button>      
     </div>
   )
 }
