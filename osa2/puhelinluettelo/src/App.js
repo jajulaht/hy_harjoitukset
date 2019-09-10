@@ -1,22 +1,30 @@
 import React, { useState } from 'react'
 
-const Person = ({ name }) => {
+const Person = ({ name, number }) => {
   return (
-    <span>{name}</span>
+    <span>{name} {number}</span>
   )
 }
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ]) 
   const [ newName, setNewName ] = useState(
     'Add a new name...'
+  )
+  const [ newNumber, setNewNumber ] = useState(
+    'Add a new number...'
   )
 
   // Handle input fields change event and state
   const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  // Handle input fields change event and state
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   // Adding a name to state array
@@ -28,10 +36,12 @@ const App = () => {
     }
     else {
       const nameObject = {
-        name: newName
+        name: newName,
+        number: newNumber
       }
       setPersons(persons.concat(nameObject))
       setNewName('Add a new name...')
+      setNewNumber('Add a new number...')
     }
   }
 
@@ -39,7 +49,8 @@ const App = () => {
   const rows = () => persons.map(person =>
     <React.Fragment key={person.name}>
     <Person
-      name={person.name}
+      name={person.name} 
+      number={person.number}
     /><br />
     </React.Fragment>
   )
@@ -49,9 +60,13 @@ const App = () => {
       <h2>Phonebook</h2>
       <form onSubmit={addName}>
         <div>
-          name: <input value={newName} 
-                       onChange={handleNameChange}
+          name:   <input value={newName} 
+                         onChange={handleNameChange}
           />
+        </div>
+        <div>
+          number: <input value={newNumber}
+                         onChange={handleNumberChange} />
         </div>
         <div>
           <button type="submit">add</button>
