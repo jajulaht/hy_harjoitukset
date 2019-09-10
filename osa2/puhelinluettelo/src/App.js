@@ -7,15 +7,26 @@ const Person = ({ name, number }) => {
 }
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-1234567' }
-  ]) 
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ])
   const [ newName, setNewName ] = useState(
     'Add a new name...'
   )
   const [ newNumber, setNewNumber ] = useState(
     'Add a new number...'
   )
+  const [ search, setNewSearch ] = useState(
+    ''
+  )
+
+  // Handle input fields change event and state
+  const handleSearchChange = (event) => {
+    setNewSearch(event.target.value)
+  }
 
   // Handle input fields change event and state
   const handleNameChange = (event) => {
@@ -45,8 +56,12 @@ const App = () => {
     }
   }
 
+  // Filter for search
+  const nameToShow = persons.filter(person => 
+    person.name.toLowerCase().includes(search.toLowerCase()))
+
   // Map persons array data to rows
-  const rows = () => persons.map(person =>
+  const rows = () => nameToShow.map(person =>
     <React.Fragment key={person.name}>
     <Person
       name={person.name} 
@@ -57,7 +72,11 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <p>Filter shown with <span> </span>
+        <input value={search} onChange={handleSearchChange} />
+      </p>
+      <h2>Add a new</h2>
       <form onSubmit={addName}>
         <div>
           name:   <input value={newName} 
