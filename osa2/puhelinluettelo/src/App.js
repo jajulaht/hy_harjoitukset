@@ -22,11 +22,17 @@ const App = () => {
   // Adding a name to state array
   const addName = (event) => {
     event.preventDefault()
-    const nameObject = {
-      name: newName
+    if (persons.some( ({ name }) => name === newName )) {
+      window.alert(`${newName} is already added to phonebook`);
+      setNewName('Add a new name...')
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('Add a new name...')
+    else {
+      const nameObject = {
+        name: newName
+      }
+      setPersons(persons.concat(nameObject))
+      setNewName('Add a new name...')
+    }
   }
 
   // Map persons array data to rows
