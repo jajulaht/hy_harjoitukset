@@ -1,9 +1,10 @@
 import React from 'react'
 import Country from './Country'
 
-const Countries = ({ countries, search, showOne, handleShowOne }) => {
+const Countries = ({ countries, search, setNewSearch }) => {
   let countriesToShow = []
   let rows
+
   // Filter for search, no string --> no results
   if (search.length === 0) {
     return null
@@ -25,6 +26,8 @@ const Countries = ({ countries, search, showOne, handleShowOne }) => {
       <React.Fragment key={country.alpha2Code}>
       <p> 
         {country.name}
+        <span> </span>
+        <button onClick={() => setNewSearch(country.name)}>Show</button>
       </p>
       </React.Fragment>
     )

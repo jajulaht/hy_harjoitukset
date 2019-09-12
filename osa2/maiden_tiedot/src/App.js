@@ -34,6 +34,7 @@ const App = () => {
       /><br />
       <Countries countries={countries} 
                  search={search}
+                 setNewSearch={setNewSearch}
       />
     </div>
   )
