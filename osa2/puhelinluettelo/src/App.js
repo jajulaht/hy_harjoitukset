@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
+import personsService from './services/persons'
 
 
 const App = () => {
-  const [persons, setPersons] = useState([])
+  const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState(
     'Add a new name...'
   )
@@ -17,20 +17,17 @@ const App = () => {
     ''
   )
 
-  // Get data from server with Axios
+  // Get data from server with Axios using services/persons.js
   // The Effect Hook lets you perform side effects in function components. 
   // Data fetching, setting up a subscription, and manually changing the DOM 
   // in React components are all examples of side effects.
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    personsService
+      .getAll()
+        .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
-  console.log('render', persons.length, 'persons')
 
   // Handle input fields change event and state
   const handleSearchChange = (event) => {
@@ -47,7 +44,7 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  // Adding a name to state array
+  // Adding a name to state array and db with services/persons.js
   const addName = (event) => {
     event.preventDefault()
     if (persons.some( ({ name }) => name === newName )) {
@@ -59,15 +56,13 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      axios
-        .post('http://localhost:3001/persons', nameObject)
-        .then(response => {
-          console.log(response)
+      personsService
+        .create(nameObject)
+          .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('Add a new name...')
+          setNewNumber('Add a new number...')
         })
-
-      setPersons(persons.concat(nameObject))
-      setNewName('Add a new name...')
-      setNewNumber('Add a new number...')
     }
   }
 
