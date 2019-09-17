@@ -47,9 +47,26 @@ const App = () => {
   // Adding a name to state array and db with services/persons.js
   const addName = (event) => {
     event.preventDefault()
-    if (persons.some( ({ name }) => name === newName )) {
-      window.alert(`${newName} is already added to phonebook`);
-      setNewName('Add a new name...')
+    if (persons.find( ({ name }) => name === newName )) {
+      if (window.confirm(`${newName} is already added to phonebook, 
+        replace the old number with a new one?`)) {
+          const id = persons.find( ({ name }) => name === newName ).id
+          const changedPerson = {
+            name: newName,
+            number: newNumber
+          }
+          personsService
+            .update(id, changedPerson)
+            .then(response => {
+              console.log('Update', response)
+              setPersons(persons.map(person => person.id !== id ? person : response))
+            })
+          setNewName('Add a new name...')
+          setNewNumber('Add a new number...')
+        } else {
+          setNewName('Add a new name...')
+          setNewNumber('Add a new number...')
+        }
     }
     else {
       const nameObject = {

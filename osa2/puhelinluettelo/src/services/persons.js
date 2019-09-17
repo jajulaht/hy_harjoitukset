@@ -23,8 +23,8 @@ const deleteThis = (id) => {
 }
 
 // Updates number
-const update = (id, newObject) => {
-  const request = axios.put(`${baseUrl}/${id}`, newObject)
+const update = (id, newNumber) => {
+  const request = axios.put(`${baseUrl}/${id}`, newNumber)
   return request.then(response => response.data)
 }
 
