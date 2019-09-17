@@ -52,21 +52,18 @@ const App = () => {
     if (persons.find( ({ name }) => name === newName )) {
       if (window.confirm(`${newName} is already added to phonebook, 
         replace the old number with a new one?`)) {
-          const id = persons.find( ({ name }) => name === newName ).id
-          const changedPerson = {
-            name: newName,
-            number: newNumber
-          }
+          const findPerson = persons.find( ({ name }) => name === newName )
+          const changedPerson = { ...findPerson, number: newNumber }
           personsService
-            .update(id, changedPerson)
+            .update(findPerson.id, changedPerson)
             .then(response => {
               console.log('Update', response)
-              setPersons(persons.map(person => person.id !== id ? person : response))
+              setPersons(persons.map(person => person.id !== findPerson.id ? person : response))
             })
           setNewName('Add a new name...')
           setNewNumber('Add a new number...')
           setMessage(
-            `'${newName}' has a new number now`
+            `'${findPerson.name}' has a new number now`
             )
           setTimeout(() => {
             setMessage(null)
