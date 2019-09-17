@@ -68,9 +68,15 @@ const App = () => {
 
   // Deleting the contact details of a person
   const deletePerson = (id) => {
-    personsService.deleteThis(id)
+    personsService
+      .deleteThis(id)
+      .then(returnedData => {
+        console.log('Delete statusText', returnedData)
+      })
+      .catch(error => {
+        alert(`the contact id '${id}' was already deleted from server`)
+      })
     let copy = persons.filter(person => person.id !== id)
-    // console.log('copy', copy)
     setPersons(copy)
   }
 
