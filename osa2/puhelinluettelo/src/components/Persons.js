@@ -18,7 +18,7 @@ const Persons = ({ persons, search, deletePerson }) => {
       id={person.id}
       name={person.name} 
       number={person.number}
-      deletePerson={() => deletePerson(person.id)}
+      deletePerson={() => deletePerson(person.id, person.name)}
     /><br />
     </React.Fragment>
   )
