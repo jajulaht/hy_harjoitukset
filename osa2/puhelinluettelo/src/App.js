@@ -66,6 +66,14 @@ const App = () => {
     }
   }
 
+  // Deleting the contact details of a person
+  const deletePerson = (id) => {
+    personsService.deleteThis(id)
+    let copy = persons.filter(person => person.id !== id)
+    // console.log('copy', copy)
+    setPersons(copy)
+  }
+
   return (
     <div>
       <h1>Phonebook</h1>
@@ -80,7 +88,7 @@ const App = () => {
                   handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} search={search} />
+      <Persons persons={persons} search={search} deletePerson={deletePerson} />
     </div>
   )
 
