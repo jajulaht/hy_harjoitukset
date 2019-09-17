@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import personsService from './services/persons'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
   const [ search, setNewSearch ] = useState(
     ''
   )
+  const [message, setMessage] = useState(null)
 
   // Get data from server with Axios using services/persons.js
   // The Effect Hook lets you perform side effects in function components. 
@@ -63,6 +65,12 @@ const App = () => {
             })
           setNewName('Add a new name...')
           setNewNumber('Add a new number...')
+          setMessage(
+            `'${newName}' has a new number now`
+            )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         } else {
           setNewName('Add a new name...')
           setNewNumber('Add a new number...')
@@ -79,6 +87,12 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('Add a new name...')
           setNewNumber('Add a new number...')
+          setMessage(
+            `'${returnedPerson.name}' was added`
+            )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
   }
@@ -98,12 +112,19 @@ const App = () => {
       })
     let copy = persons.filter(person => person.id !== id)
     setPersons(copy)
+    setMessage(
+      `'${name}' was removed`
+      )
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
     }
   }
 
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={message} />
       <Filter search={search} 
               handleSearchChange={handleSearchChange} 
       />
