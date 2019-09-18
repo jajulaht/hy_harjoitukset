@@ -23,3 +23,15 @@ code {
   padding: 10px;
   margin-bottom: 10px;
 }
+
+.error {
+  color: rgb(146, 34, 34);
+  background: rgb(243, 188, 188);
+  font-size: 20px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(201, 134, 134);
+  border-radius: 2px;
+  padding: 10px;
+  margin-bottom: 10px;
+}

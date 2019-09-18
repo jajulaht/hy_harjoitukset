@@ -17,9 +17,6 @@ const create = newObject => {
 const deleteThis = (id) => {
   const request = axios.delete(`${baseUrl}/${id}`)
   return request.then(response => response.statusText)
-  .catch(error => {
-    console.log('fail')
-  })
 }
 
 // Updates number

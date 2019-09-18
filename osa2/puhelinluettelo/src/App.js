@@ -4,6 +4,7 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import personsService from './services/persons'
 import Notification from './components/Notification'
+import ErrorMsg from './components/ErrorMsg'
 
 
 const App = () => {
@@ -17,7 +18,8 @@ const App = () => {
   const [ search, setNewSearch ] = useState(
     ''
   )
-  const [message, setMessage] = useState(null)
+  const [ message, setMessage ] = useState(null)
+  const [ errorMsg, setErrorMsg ] = useState(null)
 
   // Get data from server with Axios using services/persons.js
   // The Effect Hook lets you perform side effects in function components. 
@@ -46,7 +48,7 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  // Adding a name to state array and db with services/persons.js
+  // Adding a name (or changing number) to state array and db with services/persons.js
   const addName = (event) => {
     event.preventDefault()
     if (persons.find( ({ name }) => name === newName )) {
@@ -59,15 +61,25 @@ const App = () => {
             .then(response => {
               console.log('Update', response)
               setPersons(persons.map(person => person.id !== findPerson.id ? person : response))
+              setMessage(
+                `'${findPerson.name}' has a new number now`
+                )
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000)
+            })
+            .catch(error => {
+              setErrorMsg(
+                `Information of '${findPerson.name}' has already been removed from server`
+                )
+              setTimeout(() => {
+                console.log('Error: ', error)
+                setErrorMsg(null)
+              }, 5000)
+              setPersons(persons.filter(p => p.id !== findPerson.id))
             })
           setNewName('Add a new name...')
           setNewNumber('Add a new number...')
-          setMessage(
-            `'${findPerson.name}' has a new number now`
-            )
-          setTimeout(() => {
-            setMessage(null)
-          }, 5000)
         } else {
           setNewName('Add a new name...')
           setNewNumber('Add a new number...')
@@ -122,18 +134,22 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <Notification message={message} />
-      <Filter search={search} 
-              handleSearchChange={handleSearchChange} 
+      <ErrorMsg     errorMsg={errorMsg} />
+      <Filter       search={search} 
+                    handleSearchChange={handleSearchChange} 
       />
       <h2>Add a new</h2>
-      <PersonForm addName={addName} 
-                  newName={newName}
-                  handleNameChange={handleNameChange}
-                  newNumber={newNumber}
-                  handleNumberChange={handleNumberChange}
+      <PersonForm   addName={addName} 
+                    newName={newName}
+                    handleNameChange={handleNameChange}
+                    newNumber={newNumber}
+                    handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} search={search} deletePerson={deletePerson} />
+      <Persons      persons={persons} 
+                    search={search} 
+                    deletePerson={deletePerson} 
+      />
     </div>
   )
 
