@@ -103,6 +103,17 @@ const App = () => {
             setMessage(null)
           }, 5000)
         })
+        .catch(error => {
+          // Server returns an error message
+          console.log(error.response.data)
+          setErrorMsg(
+            `${error.response.data.error}`
+            )
+          setTimeout(() => {
+            console.log('Error: ', error)
+            setErrorMsg(null)
+          }, 5000)
+        })
     }
   }
 
